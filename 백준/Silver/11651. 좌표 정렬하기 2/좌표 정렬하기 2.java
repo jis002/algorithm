@@ -1,42 +1,40 @@
+// 람다표현식 버전
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Main {
-	
+
 	public static void main(String[] args) throws IOException {
-		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-		String[][] users = new String[N][2];
+		int[][] arr = new int[N][2];
 		
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<N; i++) {			
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			users[i][0] = st.nextToken();
-			users[i][1] = st.nextToken();			
-		}
-		
-		Arrays.sort(users, new Comparator<String[]>() {
-			@Override
-			public int compare(String[] o1, String[] o2) {
-				if(o1[1].equals(o2[1])) {
-					return Integer.parseInt(o1[0]) - Integer.parseInt(o2[0]);
-				}
-				return Integer.parseInt(o1[1]) - Integer.parseInt(o2[1]);
+			arr[i][0] = Integer.parseInt(st.nextToken());
+			arr[i][1] = Integer.parseInt(st.nextToken());
+		}				
+	
+		Arrays.sort(arr, (a, b) -> {
+			if(a[1] == b[1]) {
+				return a[0] - b[0];
+			} else {
+				return a[1] - b[1];
 			}
 		});
 		
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		for(int i=0; i<N; i++) {
-			bw.write(users[i][0]+" "+users[i][1]+"\n");
+			bw.write(arr[i][0]+" "+arr[i][1]+"\n");
 			bw.flush();
 		}
 		bw.close();
-		br.close();
+		
 	}
 }
