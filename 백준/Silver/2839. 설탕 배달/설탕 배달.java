@@ -11,27 +11,17 @@ public class Main {
 		int bag5 = 0;
 		int bag3 = 0;
 		
-		if(sugar >= 5) {
-			bag5 = sugar/5;
-			sugar -= bag5*5;
-		}
-		if(sugar >= 3) {
-			bag3 = sugar/3;
-			sugar -= bag3*3;
-		}
-
-		while(sugar!=0) {
-			sugar = N;
-			if(bag5>0) {
-				bag5--;
+		while(sugar > 0) {
+			if(sugar%5==0) {
+				bag5 = sugar/5;
 				sugar -= bag5*5;
-				bag3 = sugar/3;
-				sugar -= bag3*3;
-			} else {
 				break;
-			}
-		}	
-		
+			} else {
+				sugar -= 3;
+				bag3++;
+			}	
+		}
+			
 		if(sugar==0) {
 			System.out.println(bag5+bag3);
 		} else {
