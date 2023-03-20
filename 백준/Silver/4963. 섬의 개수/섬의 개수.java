@@ -1,34 +1,40 @@
+// 재귀로 풀기
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
 	
+	static int w; // 너비
+	static int h; // 높이
 	static int[][] map;
-	static int w;
-	static int h;
+	
 	static int[] dr = {-1, -1, 0, 1, 1, 1, 0, -1};
 	static int[] dc = {0, 1, 1, 1, 0, -1, -1, -1};
 	
+	static int cnt = 0; // 섬의 개수
 
 	public static void main(String[] args) throws IOException {
-				
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
 		while(true) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			w = Integer.parseInt(st.nextToken());
+			w = Integer.parseInt(st.nextToken()); 
 			h = Integer.parseInt(st.nextToken());
-			if(w==0 && h==0) break;
+			
+			if(w==0 && h==0) break; // 0 0 이 입력되면 종료
 			
 			map = new int[h][w];
-
+			
 			for(int r=0; r<h; r++) {
 				st = new StringTokenizer(br.readLine());
 				for(int c=0; c<w; c++) {
@@ -36,57 +42,40 @@ public class Main {
 				}
 			}
 			
-			int cnt = 0; 
+			// 각 위치마다 연결되는 섬이 있는 지 확인
+			cnt = 0;
 			for(int r=0; r<h; r++) {
 				for(int c=0; c<w; c++) {
 					if(map[r][c] == 1) {
-						bfs(r, c);
+						dfs2(r, c);
 						cnt++;
 					}
 				}
 			}
 			
-			bw.write(Integer.toString(cnt));
-			bw.newLine();
-			bw.flush();
+			System.out.println(cnt);
 		}
 		
-		bw.close();
-		br.close();
-		
-	} // main
+	}
 
 
-	private static void bfs(int row, int col) {
-		Queue<int[]> q = new LinkedList<>();
-		q.add(new int[] {row, col});
+	private static void dfs2(int r, int c) {
+
+		map[r][c] = 0;
 		
-		while(!q.isEmpty()) {
-			int[] first = q.poll();
+		for(int d=0; d<8; d++) {
+			int nr = r + dr[d];
+			int nc = c + dc[d];
 			
-			int r = first[0],
-				c = first[1];
-			
-			// 팔방탐색
-			for(int d=0; d<8; d++) { 
-				int nr = r + dr[d];
-				int nc = c + dc[d];
-			
-				if(isInMap(nr, nc) && map[nr][nc] == 1) {
-					q.add(new int[] {nr, nc});
-					map[nr][nc] = 0;
-				}
+			if(0>nr || 0>nc || nr>=h || nc>=w) {
+				continue;
 			}
+			if(map[nr][nc] == 1) {
+				map[nr][nc] = 0;
+				dfs2(nr, nc);
+			}	
 		}
-	}
-
-
-	private static boolean isInMap(int nr, int nc) {
-		if (nr>=0 && nc>=0 && nr<h && nc<w) {
-			return true;
-		} 
-		return false;
-	}
+		return;
 	
-	
+	}
 }
