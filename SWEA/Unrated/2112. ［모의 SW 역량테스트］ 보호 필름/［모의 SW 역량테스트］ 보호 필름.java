@@ -12,7 +12,6 @@ public class Solution {
 	static int[][] film;
 	static int[][] copy;	// 필름 원본 상태를 보관
 	static int K;	// 합격 기준. 연속해야 할 속성 개수
-	
 	static int ans;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -54,11 +53,12 @@ public class Solution {
 	// count : 몇번 투약했는 지
 	private static void dfs(int idx, int count) {
 	// 기저 조건
-		if(count >= K) return;
+		if(count >= ans) return;
 		
 		if(idx==D) {
 			if(satisfied()) {
 				ans = Math.min(ans, count);
+//				System.out.println("a "+Arrays.deepToString(film)+" "+count);
 			}
 			return;
 		}
