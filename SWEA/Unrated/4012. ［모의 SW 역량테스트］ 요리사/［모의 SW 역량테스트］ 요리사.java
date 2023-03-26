@@ -1,93 +1,91 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Solution {
-
+	
 	static int N;
-	static int[][] map;	
-	static int[] arr;
-	static int min;
+	static int M;
+	static int[][] map;
+	static boolean[] visited;
+	static int[] itemsA;
+	static int[] itemsB;
+	static int ans;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
-		
 		for(int tc=1; tc<=T; tc++) {
 			N = Integer.parseInt(br.readLine());
-			map = new int[N][N];
+			M = N/2;
 			
+			map = new int[N][N];
 			for(int i=0; i<N; i++) {
 				StringTokenizer st = new StringTokenizer(br.readLine());
 				for(int j=0; j<N; j++) {
 					map[i][j] = Integer.parseInt(st.nextToken());
-				}
+				}	
 			}
 			
-			arr = new int[N];
-			min = Integer.MAX_VALUE;
+			visited = new boolean[N];
+			itemsA = new int[M];
+			itemsB = new int[M];
 			
-			powerSet(0);
+			ans = Integer.MAX_VALUE;
 			
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 			StringBuilder sb = new StringBuilder();
-			sb.append("#"+tc+" "+min+"\n");
-			bw.write(sb.toString());
-			bw.flush();
+			sb.append("#").append(tc).append(" ");
+			
+			combination(0, 0, 0);
+			
+			sb.append(ans);
+			System.out.println(sb.toString());
 		}
-		
 	}
 
-	private static void powerSet(int idx) {
-		if(idx == N) {
-			int cnt=0;
-			List<Integer> listA = new ArrayList<>();
-			List<Integer> listB = new ArrayList<>();
-			for(int i=0; i<N; i++) {
-				if(arr[i]==1) {
-					cnt++;
-					listA.add(i);
-				} else {
-					listB.add(i);
+	
+	private static void combination(int idx, int aidx, int bidx) {
+		if(aidx==M || bidx==M) {
+			if(aidx==M) {
+				for(; idx<N; idx++) {
+					itemsB[bidx++] = idx;
+				}
+			} else {
+				for(; idx<N; idx++) {
+					itemsA[aidx++] = idx;
 				}
 			}
-			if(cnt==N/2) {
-				int differ = getDifference(listA, listB);
-				min = Math.min(differ, min);
-			}
+			ans = Math.min(ans, getDiffer());
 			return;
 		}
 		
-		arr[idx] = 1;
-		powerSet(idx+1);
-		arr[idx] = 0;
-		powerSet(idx+1);
+		if(idx==N) {
+			return;
+		}
+		
+		// A아이템 선택
+		itemsA[aidx] = idx;
+		combination(idx+1, aidx+1, bidx);
+		itemsB[bidx] = idx;
+		combination(idx+1, aidx, bidx+1);
+		
 	}
 
-	private static int getDifference(List<Integer> listA, List<Integer> listB) {
-		int synergyA = getSynergy(listA);		
-		int synergyB = getSynergy(listB);
-		return Math.abs(synergyA-synergyB);
-	}
 
-	private static int getSynergy(List<Integer> list) {
-		int c = list.size();
-		int sum = 0;
-		for(int i=0; i<c-1; i++) {
-			for(int j=i+1; j<c; j++) {
-				int x = list.get(i);
-				int y = list.get(j);
-				sum += map[x][y];
-				sum += map[y][x];
+	private static int getDiffer() {
+		// A아이템, B아이템에서 각 2개씩 선택하는 조합
+		int synergyA = 0;
+		int synergyB = 0;
+		for(int i=0; i<M-1; i++) {
+			for(int j=i+1; j<M; j++) {
+				synergyA += map[itemsA[i]][itemsA[j]];
+				synergyA += map[itemsA[j]][itemsA[i]];
+				synergyB += map[itemsB[i]][itemsB[j]];
+				synergyB += map[itemsB[j]][itemsB[i]];
 			}
 		}
-		return sum;
+		return Math.abs(synergyA-synergyB);
 	}
-
 }
