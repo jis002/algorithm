@@ -15,7 +15,6 @@ public class Main {
 	static int[] dr = {-2, -1, 1, 2, 2, 1, -1, -2};
 	static int[] dc = {1, 2, 2, 1, -1, -2, -2, -1};
 	
-	static int min;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,17 +33,16 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int er = Integer.parseInt(st.nextToken());
 			int ec = Integer.parseInt(st.nextToken());
+
+			int ans = bfs(sr, sc, er, ec);
 			
-			min = Integer.MAX_VALUE;
-			bfs(sr, sc, er, ec);
-			
-			System.out.println(min);
+			System.out.println(ans);
 		}
 
 	}
 
 
-	private static void bfs(int sr, int sc, int er, int ec) {
+	private static int bfs(int sr, int sc, int er, int ec) {
 		Queue<int[]> q = new LinkedList<>();
 		
 		int depth = 0;
@@ -77,10 +75,10 @@ public class Main {
 				size = q.size();
 			}
 		}		
-		min = Math.min(min, depth);
+		return depth;
 	}
 
-    
+
 	private static boolean isInMap(int nr, int nc) {
 		return 0<=nr && 0<=nc && nr<N && nc<N;
 	}
