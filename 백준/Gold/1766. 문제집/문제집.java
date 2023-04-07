@@ -66,12 +66,8 @@ public class Main {
 			
 			for(int next : list[curr]) {
 				inDegree[next]--;
-			}
-			
-			for(int i=1; i<N+1; i++) {
-				if(inDegree[i]==0 && !visited[i]) {
-					visited[i] = true;
-					pq.add(i);
+				if(inDegree[next]==0 && !visited[inDegree[next]]) {
+					pq.add(next);
 				}
 			}
 		}
