@@ -11,39 +11,26 @@ class Solution {
         visited = new boolean[n];
         
         for(int i=0; i<n; i++) {
-            for(int j=i+1; j<n; j++) {
-                if(!visited[i] && computers[i][j] == 1) {
-                    bfs(i, j, n, computers);
-                    answer++;
-                }
+            if(!visited[i]) {
+                bfs(i, n, computers);
+                answer++;
             }
-        }
-        
-        for(int i=0; i<n; i++) {
-            if(!visited[i]) answer++;
         }
         
         return answer;
     }
     
-    static void bfs(int i, int j, int n, int[][] computers) {
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[] {i, j});
+    static void bfs(int i, int n, int[][] computers) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(i);
         
         while(!q.isEmpty()) {
-            int[] curr = q.poll();
-            int u = curr[0];
-            int v = curr[1];
-            visited[u] = visited[v] = true;
-            computers[u][v] = computers[v][u] = 0;
+            int curr = q.poll();
+            visited[curr] = true;
             
             for(int k=0; k<n; k++) {
-                if(computers[u][k] == 1 && u!=k) {   
-                    q.add(new int[] {u, k});
-                }
-                
-                if(computers[v][k] == 1 && v!=k) {   
-                    q.add(new int[] {v, k});
+                if(computers[curr][k] == 1 && !visited[k]) {   
+                    q.add(k);
                 }
             }
         }
