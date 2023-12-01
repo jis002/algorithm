@@ -25,7 +25,6 @@ class Solution {
             }
         }
         
-        if(answer == max) return -1;
-        return answer;
+        return -1;
     }
 }
