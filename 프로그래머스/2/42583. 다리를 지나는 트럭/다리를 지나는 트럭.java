@@ -18,11 +18,7 @@ class Solution {
         
         while(!trucks.isEmpty()) {
             
-            if(bridge.peek() != 0) {
-                sum -= bridge.poll();
-            } else {
-                bridge.poll();
-            }
+            sum -= bridge.poll();
             
             if(sum + trucks.peek() <= weight) {
                 sum += trucks.peek();
