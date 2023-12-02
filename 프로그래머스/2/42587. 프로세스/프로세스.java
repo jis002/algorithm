@@ -3,21 +3,13 @@ import java.math.*;
 
 class Solution {
     
-    public class Process {
+    class Process {
         int index;
         int priority;
         
         public Process(int index, int priority) {
             this.index = index;
             this.priority = priority;
-        }
-        
-        public int getIndex() {
-            return index;
-        }
-        
-        public int getPriority() {
-            return priority;
         }
     }
     
@@ -35,18 +27,16 @@ class Solution {
         }
         
         outer: for(int i=highestPriority; i>0; i--) {
-            System.out.println(i);
-            
             for(int j=0; j<priorities.length; j++) {
                 if(processQ.isEmpty()) break outer;
                 if(priorityCount[i] == 0) break;
                 
                 Process current = processQ.poll();
-                if(current.getPriority() == i && current.getIndex() == location) {
+                if(current.priority == i && current.index == location) {
                     answer++;
                     priorityCount[i]--;
                     break outer;
-                } else if(current.getPriority() == i && current.getIndex() != location) {
+                } else if(current.priority == i && current.index != location) {
                     answer++;
                     priorityCount[i]--;
                 } else {
