@@ -3,27 +3,15 @@ class Solution {
         
         String answer = "";
         int[] daysOfMonth = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        String[] dayOfWeek = {"THU", "FRI", "SAT", "SUN", "MON", "TUE", "WED"};
         
         int days = b;
         for(int i=1; i<a; i++) {
             days += daysOfMonth[i];
         }
         
-        if(days % 7 == 0) {
-            answer = "THU";
-        } else if(days % 7 == 1) {
-            answer = "FRI";
-        } else if(days % 7 == 2) {
-            answer = "SAT";
-        } else if(days % 7 == 3) {
-            answer = "SUN";
-        } else if(days % 7 == 4) {
-            answer = "MON";
-        } else if(days % 7 == 5) {
-            answer = "TUE";
-        } else {
-            answer = "WED";
-        }
+        int d = days % 7;
+        answer = dayOfWeek[d];
         
         return answer;
     }
