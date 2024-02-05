@@ -1,44 +1,45 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+
 
 public class Main {
-	
-	static int N;
-	static int M;
-	static int[] sel;
-	static StringBuilder sb; 
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		
-		sel = new int[M];
-		sb = new StringBuilder();
-		
-		backTrack(0);
-		
-		System.out.println(sb.toString());
-	}
+    static int N;
+    static int M;
+    static int[] nums;
+    static int[] selected;
+    static StringBuilder sb;
 
-	private static void backTrack(int sidx) {
-		if(sidx == M) {
-			for(int i : sel) {
-				sb.append(i).append(" ");
-			}
-			sb.setLength(sb.length()-1);
-			sb.append("\n");
-			return;
-		}
-		
-		for(int i=1; i<=N; i++) {
-			sel[sidx] = i;
-			backTrack(sidx+1);
-		}
-		
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        nums = new int[N];
+        selected = new int[M];
+        for(int i=0; i<N; i++) {
+            nums[i] = i+1;
+        }
 
+        sb = new StringBuilder();
+        permutation(0);
+        System.out.println(sb.toString());
+    }
+
+    private static void permutation(int sidx) {
+        if(sidx == M) {
+            for(int num : selected) {
+                sb.append(num).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for(int i=0; i<N; i++) {
+            selected[sidx] = nums[i];
+            permutation(sidx+1);
+        }
+    }
 }
